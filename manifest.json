@@ -1,0 +1,34 @@
+{
+  "name": "知乎小助手",
+  "description": "",
+  "version": "1.1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "zhihu128.png"
+  },
+  "icons": { 
+    "16": "zhihu16.png",             
+    "48": "zhihu48.png",            
+    "128": "zhihu128.png" 
+  },  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.zhihu.com/question/*"
+      ],
+      "js": [
+        "jquery.js",
+        "common/common.js",
+        "imager/imager.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "jquery.js",
+    "imager/imager.html"
+  ],
+  "permissions": [
+    "tabs"
+  ]
+}

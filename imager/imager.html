@@ -1,0 +1,199 @@
+<button class="Button Button--primary Button--blue" id = "btn_imager" type="button">看图</button>
+<div id="imager_root" hidden="true">
+	<div class="imager-header">
+		<div >
+		<svg class="imager-box" viewBox="0 0 200 91" class="Icon Icon--logo" width="64" height="30" aria-hidden="true" style="fill: rgb(15, 136, 235); height: 30px; width: 64px;"><title></title><g><path d="M53.29 80.035l7.32.002 2.41 8.24 13.128-8.24h15.477v-67.98H53.29v67.978zm7.79-60.598h22.756v53.22h-8.73l-8.718 5.473-1.587-5.46-3.72-.012v-53.22zM46.818 43.162h-16.35c.545-8.467.687-16.12.687-22.955h15.987s.615-7.05-2.68-6.97H16.807c1.09-4.1 2.46-8.332 4.1-12.708 0 0-7.523 0-10.085 6.74-1.06 2.78-4.128 13.48-9.592 24.41 1.84-.2 7.927-.37 11.512-6.94.66-1.84.785-2.08 1.605-4.54h9.02c0 3.28-.374 20.9-.526 22.95H6.51c-3.67 0-4.863 7.38-4.863 7.38H22.14C20.765 66.11 13.385 79.24 0 89.62c6.403 1.828 12.784-.29 15.937-3.094 0 0 7.182-6.53 11.12-21.64L43.92 85.18s2.473-8.402-.388-12.496c-2.37-2.788-8.768-10.33-11.496-13.064l-4.57 3.627c1.363-4.368 2.183-8.61 2.46-12.71H49.19s-.027-7.38-2.372-7.38zm128.752-.502c6.51-8.013 14.054-18.302 14.054-18.302s-5.827-4.625-8.556-1.27c-1.874 2.548-11.51 15.063-11.51 15.063l6.012 4.51zm-46.903-18.462c-2.814-2.577-8.096.667-8.096.667s12.35 17.2 12.85 17.953l6.08-4.29s-8.02-11.752-10.83-14.33zM199.99 46.5c-6.18 0-40.908.292-40.953.292v-31.56c1.503 0 3.882-.124 7.14-.376 12.773-.753 21.914-1.25 27.427-1.504 0 0 3.817-8.496-.185-10.45-.96-.37-7.24 1.43-7.24 1.43s-51.63 5.153-72.61 5.64c.5 2.756 2.38 5.336 4.93 6.11 4.16 1.087 7.09.53 15.36.277 7.76-.5 13.65-.76 17.66-.76v31.19h-41.71s.88 6.97 7.97 7.14h33.73v22.16c0 4.364-3.498 6.87-7.65 6.6-4.4.034-8.15-.36-13.027-.566.623 1.24 1.977 4.496 6.035 6.824 3.087 1.502 5.054 2.053 8.13 2.053 9.237 0 14.27-5.4 14.027-14.16V53.93h38.235c3.026 0 2.72-7.432 2.72-7.432z" fill-rule="evenodd"></path></g></svg>
+			<a class="imager-box AppHeader-navItem">看图模式：带你发现更多的图</a>
+			<!-- <a href="#" id="btn_download" class="imager-box AppHeader-navItem imager-box-button" title="下载当前回答下所有图片">下载全部</a> -->
+		</div>
+		<br>
+		<div style="width:100%;height:1px;background:#e2d3d3;margin-top: 30px;margin-bottom: 30px"></div>
+		<h1 class="QuestionHeader-title-imager QuestionHeader-title">当一个颜值很高的程序员是怎样一番体验？</h1>
+		<div style="width:100%;height:1px;background:#e2d3d3;margin-top: 30px"></div>
+	</div>
+	<div id="img-container">
+	</div>
+	<style type="text/css" media="screen">
+		.imager-header{
+			background-color: #ffffff;
+			padding-top: 30px;
+		}
+		.imager-box{
+			float: left;
+			padding-right: 10px
+			color: #8590a6;
+		}
+		.imager-box-button:hover{
+			color: #175199;
+		}
+		.imager-carditem{
+			padding-top: 20px;
+			padding-bottom: 20px;
+			padding-right: 40px;
+			padding-left: 40px;
+		}
+		.imager-carditem:hover{
+			background: #e3f1fd;
+		}
+		.imager-usercard{
+			padding-bottom: 10px
+		}
+		#btn_imager{
+		    position: fixed;
+		    bottom: 10px;
+		    left: 10px;
+		    z-index: 99999;
+		}
+		#imager_root{
+			width: 90%;
+			position: fixed;
+			overflow : scroll;
+			background-color: #ffffff;
+			height: 85%;
+			padding-left: 50px;
+			padding-right: 50px;
+		    top: 50%;
+		    z-index: 10000;
+		    left: 50%;
+    		margin-right: -50%;
+    		transform: translate(-50%, -50%);
+    		box-shadow: 0px 0px 10px #888888;
+		}
+		#img-container{
+		}
+
+	</style>	
+</div>
+<script type="text/javascript" charset="utf-8">
+var URL_question = "/question/\\d+$";
+var URL_answer = "/question/\\d+/answer/\\d+";
+var questionId;
+var page_index = 0;
+var isFetching = false;
+function fetchPage(){
+	if (isFetching) return;
+	isFetching = true;
+	var url = window.location.pathname;
+	var paths =url.split("/")
+	var page_urls = [];
+	if (url.match(URL_answer)) {
+		//说明为答案页
+		questionId = paths[paths.length - 3];
+	}else{
+		//说明当前页为问题页面，需要分别爬取各个答案的详情页面
+		questionId = paths[paths.length - 1];
+	}
+	var offset = page_index * 20;
+    var limit = 20;
+    page_url  = "https://www.zhihu.com/api/v4/questions/"+questionId+"/answers?include=data%5B*%5D.is_normal%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.badge%5B%3F(type%3Dbest_answerer)%5D.topics&offset="+offset+"&limit="+limit+"&sort_by=default";
+    page_urls.push(page_url);
+    page_index ++;
+	for (var i = 0; i <= page_urls.length - 1; i++) {
+		dealAnswerDetailPage(page_urls[i]);
+	}
+} 
+function encodeUnicode(str) {  
+    var res = [];  
+    for ( var i=0; i<str.length; i++ ) {  
+    res[i] = ( "00" + str.charCodeAt(i).toString(16) ).slice(-4);  
+    }  
+    return "\\u" + res.join("\\u");  
+}  
+function dealAnswerDetailPage(page_url){
+	console.log(page_url);
+	$.ajax({
+		url: page_url,
+		type: 'GET',
+		dataType: 'json',
+	})
+	.done(function(response) {
+		console.log("success");
+		console.log(response);
+		if (response.data.length == 0) {
+			return;
+		}
+		for (index in response.data){
+			// console.log($(this['editable_content']).find('img'));
+			answer = response.data[index];
+			// 输出作者名和主页url
+			console.log(answer.author.name);
+			console.log(answer.author.url_token);
+			if ($('<div>'+answer.content+'</div>').find('img').length == 0) {
+				continue;
+			}
+			var paths = answer.url.split("/")
+			answerId = paths[paths.length - 1];
+			var answer_url = "https://www.zhihu.com/question/" + questionId + "/answer/" + answerId;
+			var imagerItemCard =  $("<div class='imager-carditem'></div>");
+			imagerItemCard.append(getUserLinkHtml(answer.author,answer_url,answer.voteup_count));
+			// console.log(answer.content);
+			// console.log($.parseHTML('<div>'+encodeUnicode(answer.editable_content)+'</div>') );
+			$('<div>'+answer.content+'</div>').find('img').each(function(index){
+				// console.log($(this).attr('data-actualsrc'));
+				imagerItemCard.append(getImageHtml($(this).attr('data-actualsrc')));
+			});
+			$("#img-container").append(imagerItemCard);
+		}
+		isFetching = false;
+		
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+}
+
+// startImageScan();
+String.prototype.format = function(args) {
+    var result = this;
+    if (arguments.length > 0) {    
+        if (arguments.length == 1 && typeof (args) == "object") {
+            for (var key in args) {
+                if(args[key]!=undefined){
+                    var reg = new RegExp("({" + key + "})", "g");
+                    result = result.replace(reg, args[key]);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i] != undefined) {
+　　　　　　　　　　var reg= new RegExp("({)" + i + "(})", "g");
+                    result = result.replace(reg, arguments[i]);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+function getUserLinkHtml(author,answer_url,voteup_count){
+	// $("#img-container").append("<br><br><a  target='_blank' href='" + answer_url + "'>" + author.name + "</a><br>");
+	var container = new String("<div class=\"imager-usercard AnswerItem-meta AnswerItem-meta--related\"><div class=\"AuthorInfo\"><span class=\"UserLink AuthorInfo-avatarWrapper\"><div class=\"Popover\"><div id=\"Popover-38863-38002-toggle\" aria-haspopup=\"true\" aria-expanded=\"false\" aria-owns=\"Popover-38863-38002-content\"><a class=\"UserLink-link\" href=\"/people/yyylkl\"><img class=\"Avatar AuthorInfo-avatar\" width=\"38\" height=\"38\" src=\"{avatar_url}\" alt=\"{name}\"></a></div><!-- react-empty: 521 --></div></span><div class=\"AuthorInfo-content\"><div class=\"AuthorInfo-title\"><div class=\"AuthorInfo-name\"><span class=\"UserLink\"><div class=\"Popover\"><div id=\"Popover-38867-25877-toggle\" aria-haspopup=\"true\" aria-expanded=\"false\" aria-owns=\"Popover-38867-25877-content\"><a target='_blank' class=\"UserLink-link\" href=\"{name_url}\">{name}</a></div><!-- react-empty: 529 --></div></span></div></div><div class=\"RichText AuthorInfo-badge\">{headline}</div></div></div><div class=\"AnswerItem-extraInfo\"><span class=\"Voters\"><button class=\"Button Button--plain\" type=\"button\">{voteup_count} 人赞同了该回答</button><!-- react-empty: 534 --></span></div></div>");
+	return container.format({
+		name:author.name,
+		avatar_url:author.avatar_url,
+		name_url:answer_url,
+		headline:author.headline,
+		voteup_count:voteup_count
+	});
+}
+
+function getImageHtml(img_url){
+	return "<img class='imager-img' style='height:300px;border:2px solid #ffffff;' src='" + img_url +  "'>";
+}
+
+$("#imager_root").scroll(function(){
+	viewH =$(this).height(),
+	contentH =$(this).get(0).scrollHeight,
+	scrollTop =$(this).scrollTop();
+	if(scrollTop / (contentH - viewH) >= 0.95){
+		fetchPage();
+	}
+});
+
+fetchPage();
+</script>
+
