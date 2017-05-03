@@ -13,6 +13,8 @@
 	</div>
 	<div id="img-container">
 	</div>
+	<div id="fetch_tips">正在拉取中
+	</div>
 	<style type="text/css" media="screen">
 		.imager-header{
 			background-color: #ffffff;
@@ -61,6 +63,12 @@
 		}
 		#img-container{
 		}
+		#fetch_tips{
+			width: 100%;
+			padding: 20px;
+			text-align: center; 
+			color: #175199;
+		}
 
 	</style>	
 </div>
@@ -73,6 +81,7 @@ var isFetching = false;
 function fetchPage(){
 	if (isFetching) return;
 	isFetching = true;
+	$("#fetch_tips").text("正在拉取新图片中");
 	var url = window.location.pathname;
 	var paths =url.split("/")
 	var page_urls = [];
@@ -110,14 +119,17 @@ function dealAnswerDetailPage(page_url){
 		console.log("success");
 		console.log(response);
 		if (response.data.length == 0) {
+			//没有更多回答
+			$("#fetch_tips").text("已无更多图片");
 			return;
 		}
+		var image_count = 0;
 		for (index in response.data){
 			// console.log($(this['editable_content']).find('img'));
 			answer = response.data[index];
 			// 输出作者名和主页url
-			console.log(answer.author.name);
-			console.log(answer.author.url_token);
+			// console.log(answer.author.name);
+			// console.log(answer.author.url_token);
 			if ($('<div>'+answer.content+'</div>').find('img').length == 0) {
 				continue;
 			}
@@ -131,10 +143,17 @@ function dealAnswerDetailPage(page_url){
 			$('<div>'+answer.content+'</div>').find('img').each(function(index){
 				// console.log($(this).attr('data-actualsrc'));
 				imagerItemCard.append(getImageHtml($(this).attr('data-actualsrc')));
+				image_count++;
 			});
 			$("#img-container").append(imagerItemCard);
 		}
 		isFetching = false;
+		$("#fetch_tips").text("更多图片");
+		if (image_count == 0 && response.data.length != 0) {
+			//如果本次一张图都没拉到，并且还存在回答就再继续拉一次
+			fetchPage();
+		}
+		
 		
 	})
 	.fail(function() {
