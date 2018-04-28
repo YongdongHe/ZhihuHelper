@@ -9,11 +9,13 @@
 + fuck zhihu：屏蔽知乎模态对话框，跳过隐私授权
 
 ## 使用方法
-下载压缩包到本地，并解压
+下载压缩包： https://github.com//YongdongHe/ZhihuHelper/archive/master.zip
+
+并解压到本地目录
 
 chrome或360极速浏览器，QQ浏览器等均可使用
 
-打开拓展程序设置页面，启用开发者模式，加载已解压的拓展程序，选择ZhihuHelper文件夹
+打开拓展程序设置页面，启用开发者模式，加载已解压的拓展程序，选择刚刚解压的文件夹
 
 
 
