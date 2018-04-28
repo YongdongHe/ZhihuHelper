@@ -16,7 +16,8 @@
     {
       "matches": [
         "https://www.zhihu.com/question/*",
-        "https://www.zhihu.com/*"
+        "https://www.zhihu.com/*",
+        "https://*.zhihu.com/*"
       ],
       "js": [
         "jquery.js",

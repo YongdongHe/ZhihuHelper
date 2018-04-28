@@ -29,7 +29,7 @@ function initHelper(){
 
 function fuckZhihu(){
 	console.log('Fuck zhihu');
-	$(".Modal-wrapper").hide();
+	$(".Modal-wrapper").remove();
 	$("html" ).css({'overflow': 'scroll'});
 }
 
@@ -37,4 +37,5 @@ function fuckZhihu(){
 
 $( document ).ready(function() {
 	fuckZhihu();
+	setInterval(fuckZhihu, 500 ) ;
 });
