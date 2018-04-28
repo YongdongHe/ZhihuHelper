@@ -27,4 +27,9 @@ function initHelper(){
 	injectJS();
 }
 
+function fuckZhihu(){
+	$(".Modal-wrapper").hide();
+	$("html" ).css({'overflow': 'scroll'});
+}
 
+fuckZhihu();

@@ -15,7 +15,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.zhihu.com/question/*"
+        "https://www.zhihu.com/question/*",
+        "https://www.zhihu.com/*"
       ],
       "js": [
         "jquery.js",
