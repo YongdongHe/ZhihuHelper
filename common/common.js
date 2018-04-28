@@ -28,8 +28,13 @@ function initHelper(){
 }
 
 function fuckZhihu(){
+	console.log('Fuck zhihu');
 	$(".Modal-wrapper").hide();
 	$("html" ).css({'overflow': 'scroll'});
 }
 
-fuckZhihu();
+
+
+$( document ).ready(function() {
+	fuckZhihu();
+});
